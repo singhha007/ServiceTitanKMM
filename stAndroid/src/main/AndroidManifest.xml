@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.servicetitan.servicetitankmm.stAndroid">
+    package="com.servicetitan.kmm.stAndroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainActivity"
+            android:name="com.servicetitan.kmm.stAndroid.MainActivity"
             android:label="ServiceTitan"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.servicetitan.servicetitankmm.stAndroid
+package com.servicetitan.kmm.stAndroid
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable

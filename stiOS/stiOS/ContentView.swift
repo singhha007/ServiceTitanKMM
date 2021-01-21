@@ -2,17 +2,18 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    @ObservedObject var pricebookObject = PricebookObject()
+    @ObservedObject var showObject = ShowObject()
     
     init() {
-        pricebookObject.getItems()
+        showObject.getItems()
     }
     
     var body: some View {
-        Text(PricebookManager().providePlatform())
+        Text(ShowManager().provideBuild())
+        Text(ShowManager().provideCurrentDate())
         Spacer()
         List {
-            ForEach(pricebookObject.pricebook) { item in
+            ForEach(showObject.shows) { item in
                 PricebookItemView(item: item)
             }
         }
@@ -20,12 +21,12 @@ struct ContentView: View {
 }
 
 struct PricebookItemView: View {
-    var item: PricebookItemIdentifiable? = nil
+    var item: ShowItemIdentificable? = nil
     
     var body: some View {
         HStack(spacing: 16) {
             if #available(iOS 14.0, *) {
-                RemoteImage(url: item?.pricebook.thumbnailUrl ?? "")
+                RemoteImage(url: "https://image.tmdb.org/t/p/w500/" + (item?.show.backdropPath)!)
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 48, height: 48)
                     .clipShape(Circle())
@@ -37,39 +38,11 @@ struct PricebookItemView: View {
             }
             
             VStack(alignment: .leading) {
-                Text(item?.pricebook.name ?? "").font(.headline)
-                Text(item?.pricebook.description ?? "").font(.footnote)
-            }
-            
-            Spacer()
-            
-            VStack(alignment: .trailing) {
-                Text(String(item?.pricebook.price ?? 0.0))
-                    .font(.headline)
+                Text(item?.show.name ?? "").font(.headline)
+                Text(item?.show.overview ?? "").font(.footnote)
             }
         }
         .padding(4)
-    }
-}
-
-struct PricebookItemIdentifiable: Identifiable {
-    var id = UUID()
-    var pricebook: PricebookItem
-}
-
-class PricebookObject: ObservableObject {
-    @Published var pricebook: [PricebookItemIdentifiable] = []
-    
-    func getItems() {
-        PricebookManager().getPricebook(page: 1, pageSize: 20, completionHandler: { pricebookResponse, error in
-            if let pricebookResponse = pricebookResponse {
-                self.pricebook = pricebookResponse.data.map({
-                    PricebookItemIdentifiable(pricebook: $0)
-                })
-            } else {
-                self.pricebook = []
-            }
-        })
     }
 }
 
